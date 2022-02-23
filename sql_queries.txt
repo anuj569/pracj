@@ -1,0 +1,1487 @@
+[anujkumar.pandey@NL533 ~]$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.28 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.03 sec)
+
+mysql> create database myprac;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> 
+mysql> use myprac
+Database changed
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| myprac             |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.01 sec)
+
+mysql> use myprac
+Database changed
+mysql> 
+mysql> 
+mysql> create table customer(
+    -> cust_id INT NOT NULL AUTO_INCREMENT,
+    -> fname VARCHAR(30),
+    -> mname VARCHAR(30),
+    -> ltname VARCHAR(30),
+    -> city VARCHAR(15),
+    -> mobileno VARCHAR(10),
+    -> occupation VARCHAR(10),
+    -> PRIMARY KEY ( cust_id )
+    -> );
+Query OK, 0 rows affected (0.24 sec)
+
+mysql> CREATE TABLE loan
+    -> (
+    -> loan_id INT NOT NULL AUTO_INCREMENT,   
+    -> custid VARCHAR(6),
+    -> loan_amount INT(7),
+    -> PRIMARY KEY ( loan_id )
+    -> );
+Query OK, 0 rows affected, 1 warning (0.09 sec)
+
+mysql> 
+mysql> show tables;
++------------------+
+| Tables_in_myprac |
++------------------+
+| customer         |
+| loan             |
++------------------+
+2 rows in set (0.02 sec)
+
+mysql> desc customer;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| cust_id    | int         | NO   | PRI | NULL    | auto_increment |
+| fname      | varchar(30) | YES  |     | NULL    |                |
+| mname      | varchar(30) | YES  |     | NULL    |                |
+| ltname     | varchar(30) | YES  |     | NULL    |                |
+| city       | varchar(15) | YES  |     | NULL    |                |
+| mobileno   | varchar(10) | YES  |     | NULL    |                |
+| occupation | varchar(10) | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.02 sec)
+
+mysql> describe customer;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| cust_id    | int         | NO   | PRI | NULL    | auto_increment |
+| fname      | varchar(30) | YES  |     | NULL    |                |
+| mname      | varchar(30) | YES  |     | NULL    |                |
+| ltname     | varchar(30) | YES  |     | NULL    |                |
+| city       | varchar(15) | YES  |     | NULL    |                |
+| mobileno   | varchar(10) | YES  |     | NULL    |                |
+| occupation | varchar(10) | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> show create table customer;
++----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table    | Create Table                                                                                                                                                                                                                                                                                                                                                                                    |
++----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| customer | CREATE TABLE `customer` (
+  `cust_id` int NOT NULL AUTO_INCREMENT,
+  `fname` varchar(30) DEFAULT NULL,
+  `mname` varchar(30) DEFAULT NULL,
+  `ltname` varchar(30) DEFAULT NULL,
+  `city` varchar(15) DEFAULT NULL,
+  `mobileno` varchar(10) DEFAULT NULL,
+  `occupation` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`cust_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.03 sec)
+
+mysql> INSERT INTO customer VALUES('C00001','Ramesh','Chandra','Sharma','Delhi','9543198345','Service');
+ERROR 1366 (HY000): Incorrect integer value: 'C00001' for column 'cust_id' at row 1
+mysql> INSERT INTO customer VALUES(NULL,'Ramesh','Chandra','Sharma','Delhi','9543198345','Service');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++---------+--------+---------+--------+-------+------------+------------+
+| cust_id | fname  | mname   | ltname | city  | mobileno   | occupation |
++---------+--------+---------+--------+-------+------------+------------+
+|       1 | Ramesh | Chandra | Sharma | Delhi | 9543198345 | Service    |
++---------+--------+---------+--------+-------+------------+------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO customer VALUES(NULL,'Ramesh2','Chandra2','Sharma2','Mumbai','9543198342','Service');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++---------+---------+----------+---------+--------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city   | mobileno   | occupation |
++---------+---------+----------+---------+--------+------------+------------+
+|       1 | Ramesh  | Chandra  | Sharma  | Delhi  | 9543198345 | Service    |
+|       2 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
++---------+---------+----------+---------+--------+------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> show create table customer;
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table    | Create Table                                                                                                                                                                                                                                                                                                                                                                                                     |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| customer | CREATE TABLE `customer` (
+  `cust_id` int NOT NULL AUTO_INCREMENT,
+  `fname` varchar(30) DEFAULT NULL,
+  `mname` varchar(30) DEFAULT NULL,
+  `ltname` varchar(30) DEFAULT NULL,
+  `city` varchar(15) DEFAULT NULL,
+  `mobileno` varchar(10) DEFAULT NULL,
+  `occupation` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`cust_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> desc customer;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| cust_id    | int         | NO   | PRI | NULL    | auto_increment |
+| fname      | varchar(30) | YES  |     | NULL    |                |
+| mname      | varchar(30) | YES  |     | NULL    |                |
+| ltname     | varchar(30) | YES  |     | NULL    |                |
+| city       | varchar(15) | YES  |     | NULL    |                |
+| mobileno   | varchar(10) | YES  |     | NULL    |                |
+| occupation | varchar(10) | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.01 sec)
+
+mysql> show create table customer;
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table    | Create Table                                                                                                                                                                                                                                                                                                                                                                                                     |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| customer | CREATE TABLE `customer` (
+  `cust_id` int NOT NULL AUTO_INCREMENT,
+  `fname` varchar(30) DEFAULT NULL,
+  `mname` varchar(30) DEFAULT NULL,
+  `ltname` varchar(30) DEFAULT NULL,
+  `city` varchar(15) DEFAULT NULL,
+  `mobileno` varchar(10) DEFAULT NULL,
+  `occupation` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`cust_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO customer VALUES(5,'Ramesh2','Chandra2','Sharma2','Mumbai','9543198342','Service');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show create table customer;
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table    | Create Table                                                                                                                                                                                                                                                                                                                                                                                                     |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| customer | CREATE TABLE `customer` (
+  `cust_id` int NOT NULL AUTO_INCREMENT,
+  `fname` varchar(30) DEFAULT NULL,
+  `mname` varchar(30) DEFAULT NULL,
+  `ltname` varchar(30) DEFAULT NULL,
+  `city` varchar(15) DEFAULT NULL,
+  `mobileno` varchar(10) DEFAULT NULL,
+  `occupation` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`cust_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer;
++---------+---------+----------+---------+--------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city   | mobileno   | occupation |
++---------+---------+----------+---------+--------+------------+------------+
+|       1 | Ramesh  | Chandra  | Sharma  | Delhi  | 9543198345 | Service    |
+|       2 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       5 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
++---------+---------+----------+---------+--------+------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO customer VALUES(5,'Ramesh2','Chandra2','Sharma2','Mumbai','9543198342','Service');
+ERROR 1062 (23000): Duplicate entry '5' for key 'customer.PRIMARY'
+mysql> INSERT INTO customer VALUES(NULL,'Ramesh2','Chandra2','Sharma2','Mumbai','9543198342','Service');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++---------+---------+----------+---------+--------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city   | mobileno   | occupation |
++---------+---------+----------+---------+--------+------------+------------+
+|       1 | Ramesh  | Chandra  | Sharma  | Delhi  | 9543198345 | Service    |
+|       2 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       5 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       6 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
++---------+---------+----------+---------+--------+------------+------------+
+4 rows in set (0.01 sec)
+
+mysql> INSERT INTO customer VALUES(3,'Ramesh2','Chandra2','Sharma2','Mumbai','9543198342','Service');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show create table customer;
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table    | Create Table                                                                                                                                                                                                                                                                                                                                                                                                     |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| customer | CREATE TABLE `customer` (
+  `cust_id` int NOT NULL AUTO_INCREMENT,
+  `fname` varchar(30) DEFAULT NULL,
+  `mname` varchar(30) DEFAULT NULL,
+  `ltname` varchar(30) DEFAULT NULL,
+  `city` varchar(15) DEFAULT NULL,
+  `mobileno` varchar(10) DEFAULT NULL,
+  `occupation` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`cust_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer;
++---------+---------+----------+---------+--------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city   | mobileno   | occupation |
++---------+---------+----------+---------+--------+------------+------------+
+|       1 | Ramesh  | Chandra  | Sharma  | Delhi  | 9543198345 | Service    |
+|       2 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       3 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       5 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       6 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
++---------+---------+----------+---------+--------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO customer VALUES(4,'Ramesh2','Chandra2','Sharma2','Mumbai','9543198342','Service');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show create table customer;
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table    | Create Table                                                                                                                                                                                                                                                                                                                                                                                                     |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| customer | CREATE TABLE `customer` (
+  `cust_id` int NOT NULL AUTO_INCREMENT,
+  `fname` varchar(30) DEFAULT NULL,
+  `mname` varchar(30) DEFAULT NULL,
+  `ltname` varchar(30) DEFAULT NULL,
+  `city` varchar(15) DEFAULT NULL,
+  `mobileno` varchar(10) DEFAULT NULL,
+  `occupation` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`cust_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> INSERT INTO customer(fname,mname) VALUES('Ramesh','Chandra');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from customer;
++---------+---------+----------+---------+--------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city   | mobileno   | occupation |
++---------+---------+----------+---------+--------+------------+------------+
+|       1 | Ramesh  | Chandra  | Sharma  | Delhi  | 9543198345 | Service    |
+|       2 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       3 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       4 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       5 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       6 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       7 | Ramesh  | Chandra  | NULL    | NULL   | NULL       | NULL       |
++---------+---------+----------+---------+--------+------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> INSERT INTO customer VALUES(NULL,'Avinash','Sunder','Minha','Delhi','9876532109','Service');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO customer VALUES(NULL,'Rahul',null,'Rastogi','Delhi','9765178901','Student');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO customer VALUES(NULL,'Parul',null,'Gandhi','Delhi','9876532109','Housewife');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO customer VALUES(NULL,'Naveen',NULL,'Aedekar','Mumbai','8976523190','Service');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO customer VALUES(NULL,NULL,null,'Barwe','Mumbai','7651298321','Student');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO customer VALUES(NULL,'Amit','Kumar','Borkar','Mumbai','9875189761','Student');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO customer VALUES(NULL,'Nisha',null,'Damle','Mumbai','7954198761','Service');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO customer VALUES(NULL,'Abhishek',null,'Dutta','Kolkata','9856198761','Service');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO customer  VALUES(NULL,'Shankar',null,'Nair',NULL,'8765489076','Service');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++---------+----------+----------+---------+---------+------------+------------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation |
++---------+----------+----------+---------+---------+------------+------------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |
+|       2 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       3 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       4 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       5 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       6 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       7 | Ramesh   | Chandra  | NULL    | NULL    | NULL       | NULL       |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |
+|      12 | NULL     | NULL     | Barwe   | Mumbai  | 7651298321 | Student    |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |
++---------+----------+----------+---------+---------+------------+------------+
+16 rows in set (0.00 sec)
+
+mysql> show create table loan;
++-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                      |
++-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| loan  | CREATE TABLE `loan` (
+  `loan_id` int NOT NULL AUTO_INCREMENT,
+  `custid` varchar(6) DEFAULT NULL,
+  `loan_amount` int DEFAULT NULL,
+  PRIMARY KEY (`loan_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> INSERT INTO loan VALUES(NULL,10,100000);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO loan VALUES(NULL,11,200000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO loan VALUES(NULL,10,400000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO loan VALUES(NULL,12,500000);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO loan VALUES(NULL,13,600000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO loan VALUES(NULL,12,600000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from loan;
++---------+--------+-------------+
+| loan_id | custid | loan_amount |
++---------+--------+-------------+
+|       1 | 10     |      100000 |
+|       2 | 11     |      200000 |
+|       3 | 10     |      400000 |
+|       4 | 12     |      500000 |
+|       5 | 13     |      600000 |
+|       6 | 12     |      600000 |
++---------+--------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from customer;
++---------+----------+----------+---------+---------+------------+------------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation |
++---------+----------+----------+---------+---------+------------+------------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |
+|       2 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       3 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       4 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       5 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       6 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       7 | Ramesh   | Chandra  | NULL    | NULL    | NULL       | NULL       |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |
+|      12 | NULL     | NULL     | Barwe   | Mumbai  | 7651298321 | Student    |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |
++---------+----------+----------+---------+---------+------------+------------+
+16 rows in set (0.00 sec)
+
+mysql> select * from customer WHERE city='Mumbai';
++---------+---------+----------+---------+--------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city   | mobileno   | occupation |
++---------+---------+----------+---------+--------+------------+------------+
+|       2 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       3 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       4 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       5 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       6 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|      11 | Naveen  | NULL     | Aedekar | Mumbai | 8976523190 | Service    |
+|      12 | NULL    | NULL     | Barwe   | Mumbai | 7651298321 | Student    |
+|      13 | Amit    | Kumar    | Borkar  | Mumbai | 9875189761 | Student    |
+|      14 | Nisha   | NULL     | Damle   | Mumbai | 7954198761 | Service    |
++---------+---------+----------+---------+--------+------------+------------+
+9 rows in set (0.01 sec)
+
+mysql> select * from customer WHERE city='Mumbai' AND fname = 'Naveen';
++---------+--------+-------+---------+--------+------------+------------+
+| cust_id | fname  | mname | ltname  | city   | mobileno   | occupation |
++---------+--------+-------+---------+--------+------------+------------+
+|      11 | Naveen | NULL  | Aedekar | Mumbai | 8976523190 | Service    |
++---------+--------+-------+---------+--------+------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer WHERE city='Mumbai' OR fname = 'Naveen';
++---------+---------+----------+---------+--------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city   | mobileno   | occupation |
++---------+---------+----------+---------+--------+------------+------------+
+|       2 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       3 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       4 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       5 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       6 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|      11 | Naveen  | NULL     | Aedekar | Mumbai | 8976523190 | Service    |
+|      12 | NULL    | NULL     | Barwe   | Mumbai | 7651298321 | Student    |
+|      13 | Amit    | Kumar    | Borkar  | Mumbai | 9875189761 | Student    |
+|      14 | Nisha   | NULL     | Damle   | Mumbai | 7954198761 | Service    |
++---------+---------+----------+---------+--------+------------+------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from customer WHERE city='Mumbai' OR fname = 'Naveen' OR 1;
++---------+----------+----------+---------+---------+------------+------------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation |
++---------+----------+----------+---------+---------+------------+------------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |
+|       2 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       3 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       4 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       5 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       6 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       7 | Ramesh   | Chandra  | NULL    | NULL    | NULL       | NULL       |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |
+|      12 | NULL     | NULL     | Barwe   | Mumbai  | 7651298321 | Student    |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |
++---------+----------+----------+---------+---------+------------+------------+
+16 rows in set (0.00 sec)
+
+mysql> select * from customer WHERE city='Mumbai' OR fname = 'Naveen' OR 1=1;
++---------+----------+----------+---------+---------+------------+------------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation |
++---------+----------+----------+---------+---------+------------+------------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |
+|       2 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       3 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       4 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       5 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       6 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       7 | Ramesh   | Chandra  | NULL    | NULL    | NULL       | NULL       |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |
+|      12 | NULL     | NULL     | Barwe   | Mumbai  | 7651298321 | Student    |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |
++---------+----------+----------+---------+---------+------------+------------+
+16 rows in set (0.00 sec)
+
+mysql> select * from customer WHERE fname like 'A%';
++---------+----------+--------+--------+---------+------------+------------+
+| cust_id | fname    | mname  | ltname | city    | mobileno   | occupation |
++---------+----------+--------+--------+---------+------------+------------+
+|       8 | Avinash  | Sunder | Minha  | Delhi   | 9876532109 | Service    |
+|      13 | Amit     | Kumar  | Borkar | Mumbai  | 9875189761 | Student    |
+|      15 | Abhishek | NULL   | Dutta  | Kolkata | 9856198761 | Service    |
++---------+----------+--------+--------+---------+------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from customer WHERE fname like 'Am%';
++---------+-------+-------+--------+--------+------------+------------+
+| cust_id | fname | mname | ltname | city   | mobileno   | occupation |
++---------+-------+-------+--------+--------+------------+------------+
+|      13 | Amit  | Kumar | Borkar | Mumbai | 9875189761 | Student    |
++---------+-------+-------+--------+--------+------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer WHERE fname like '%m%';
++---------+---------+----------+---------+--------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city   | mobileno   | occupation |
++---------+---------+----------+---------+--------+------------+------------+
+|       1 | Ramesh  | Chandra  | Sharma  | Delhi  | 9543198345 | Service    |
+|       2 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       3 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       4 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       5 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       6 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       7 | Ramesh  | Chandra  | NULL    | NULL   | NULL       | NULL       |
+|      13 | Amit    | Kumar    | Borkar  | Mumbai | 9875189761 | Student    |
++---------+---------+----------+---------+--------+------------+------------+
+8 rows in set (0.00 sec)
+
+mysql> select * from customer WHERE fname like '%2%';
++---------+---------+----------+---------+--------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city   | mobileno   | occupation |
++---------+---------+----------+---------+--------+------------+------------+
+|       2 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       3 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       4 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       5 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       6 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
++---------+---------+----------+---------+--------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> select * from customer WHERE city='Mumbai' OR fname = 'Naveen' OR 1=1;
++---------+----------+----------+---------+---------+------------+------------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation |
++---------+----------+----------+---------+---------+------------+------------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |
+|       2 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       3 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       4 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       5 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       6 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       7 | Ramesh   | Chandra  | NULL    | NULL    | NULL       | NULL       |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |
+|      12 | NULL     | NULL     | Barwe   | Mumbai  | 7651298321 | Student    |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |
++---------+----------+----------+---------+---------+------------+------------+
+16 rows in set (0.00 sec)
+
+mysql> UPDATE customer SET fname='Sagar',mname='Abhishek' WHERE cust_id = 12;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> 
+mysql> 
+mysql> select * from customer WHERE city='Mumbai' OR fname = 'Naveen' OR 1=1;
++---------+----------+----------+---------+---------+------------+------------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation |
++---------+----------+----------+---------+---------+------------+------------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |
+|       2 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       3 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       4 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       5 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       6 | Ramesh2  | Chandra2 | Sharma2 | Mumbai  | 9543198342 | Service    |
+|       7 | Ramesh   | Chandra  | NULL    | NULL    | NULL       | NULL       |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |
+|      12 | Sagar    | Abhishek | Barwe   | Mumbai  | 7651298321 | Student    |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |
++---------+----------+----------+---------+---------+------------+------------+
+16 rows in set (0.00 sec)
+
+mysql> select * from customer where fname='Ramesh2';
++---------+---------+----------+---------+--------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city   | mobileno   | occupation |
++---------+---------+----------+---------+--------+------------+------------+
+|       2 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       3 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       4 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       5 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       6 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
++---------+---------+----------+---------+--------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customer where fname='Ramesh2';
++---------+---------+----------+---------+--------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city   | mobileno   | occupation |
++---------+---------+----------+---------+--------+------------+------------+
+|       2 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       3 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       4 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       5 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
+|       6 | Ramesh2 | Chandra2 | Sharma2 | Mumbai | 9543198342 | Service    |
++---------+---------+----------+---------+--------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> update customer SET city='Delhi' where fname='Ramesh2';
+Query OK, 5 rows affected (0.02 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from customer where fname='Ramesh2';
++---------+---------+----------+---------+-------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city  | mobileno   | occupation |
++---------+---------+----------+---------+-------+------------+------------+
+|       2 | Ramesh2 | Chandra2 | Sharma2 | Delhi | 9543198342 | Service    |
+|       3 | Ramesh2 | Chandra2 | Sharma2 | Delhi | 9543198342 | Service    |
+|       4 | Ramesh2 | Chandra2 | Sharma2 | Delhi | 9543198342 | Service    |
+|       5 | Ramesh2 | Chandra2 | Sharma2 | Delhi | 9543198342 | Service    |
+|       6 | Ramesh2 | Chandra2 | Sharma2 | Delhi | 9543198342 | Service    |
++---------+---------+----------+---------+-------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customer where fname='Ramesh2';
++---------+---------+----------+---------+-------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city  | mobileno   | occupation |
++---------+---------+----------+---------+-------+------------+------------+
+|       2 | Ramesh2 | Chandra2 | Sharma2 | Delhi | 9543198342 | Service    |
+|       3 | Ramesh2 | Chandra2 | Sharma2 | Delhi | 9543198342 | Service    |
+|       4 | Ramesh2 | Chandra2 | Sharma2 | Delhi | 9543198342 | Service    |
+|       5 | Ramesh2 | Chandra2 | Sharma2 | Delhi | 9543198342 | Service    |
+|       6 | Ramesh2 | Chandra2 | Sharma2 | Delhi | 9543198342 | Service    |
++---------+---------+----------+---------+-------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> DELETE from customer where fname='Ramesh2';
+Query OK, 5 rows affected (0.02 sec)
+
+mysql> select * from customer WHERE city='Mumbai' OR fname = 'Naveen' OR 1=1;
++---------+----------+----------+---------+---------+------------+------------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation |
++---------+----------+----------+---------+---------+------------+------------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |
+|       7 | Ramesh   | Chandra  | NULL    | NULL    | NULL       | NULL       |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |
+|      12 | Sagar    | Abhishek | Barwe   | Mumbai  | 7651298321 | Student    |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |
++---------+----------+----------+---------+---------+------------+------------+
+11 rows in set (0.00 sec)
+
+mysql> select * from customer where cust_id = 7;
++---------+--------+---------+--------+------+----------+------------+
+| cust_id | fname  | mname   | ltname | city | mobileno | occupation |
++---------+--------+---------+--------+------+----------+------------+
+|       7 | Ramesh | Chandra | NULL   | NULL | NULL     | NULL       |
++---------+--------+---------+--------+------+----------+------------+
+1 row in set (0.00 sec)
+
+mysql> delete from customer where cust_id = 7;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer where cust_id = 7;
+Empty set (0.00 sec)
+
+mysql> select * from customer WHERE city='Mumbai' OR fname = 'Naveen' OR 1=1;
++---------+----------+----------+---------+---------+------------+------------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation |
++---------+----------+----------+---------+---------+------------+------------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |
+|      12 | Sagar    | Abhishek | Barwe   | Mumbai  | 7651298321 | Student    |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |
++---------+----------+----------+---------+---------+------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select city,count(1) from customer group by city;
++---------+----------+
+| city    | count(1) |
++---------+----------+
+| Delhi   |        4 |
+| Mumbai  |        4 |
+| Kolkata |        1 |
+| NULL    |        1 |
++---------+----------+
+4 rows in set (0.01 sec)
+
+mysql> select city,count(1) from customer group by city having count(1) > 2;
++--------+----------+
+| city   | count(1) |
++--------+----------+
+| Delhi  |        4 |
+| Mumbai |        4 |
++--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> +
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '+' at line 1
+mysql> 
+mysql> select * from customer;
++---------+----------+----------+---------+---------+------------+------------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation |
++---------+----------+----------+---------+---------+------------+------------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |
+|      12 | Sagar    | Abhishek | Barwe   | Mumbai  | 7651298321 | Student    |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |
++---------+----------+----------+---------+---------+------------+------------+
+10 rows in set (0.07 sec)
+
+mysql> select * from customer where ltname like '%r%';
++---------+---------+----------+---------+--------+------------+------------+
+| cust_id | fname   | mname    | ltname  | city   | mobileno   | occupation |
++---------+---------+----------+---------+--------+------------+------------+
+|       1 | Ramesh  | Chandra  | Sharma  | Delhi  | 9543198345 | Service    |
+|       9 | Rahul   | NULL     | Rastogi | Delhi  | 9765178901 | Student    |
+|      11 | Naveen  | NULL     | Aedekar | Mumbai | 8976523190 | Service    |
+|      12 | Sagar   | Abhishek | Barwe   | Mumbai | 7651298321 | Student    |
+|      13 | Amit    | Kumar    | Borkar  | Mumbai | 9875189761 | Student    |
+|      16 | Shankar | NULL     | Nair    | NULL   | 8765489076 | Service    |
++---------+---------+----------+---------+--------+------------+------------+
+6 rows in set (0.01 sec)
+
+mysql> select * from customer;
++---------+----------+----------+---------+---------+------------+------------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation |
++---------+----------+----------+---------+---------+------------+------------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |
+|      12 | Sagar    | Abhishek | Barwe   | Mumbai  | 7651298321 | Student    |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |
++---------+----------+----------+---------+---------+------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select occupation from customer group by occupation;
++------------+
+| occupation |
++------------+
+| Service    |
+| Student    |
+| Housewife  |
++------------+
+3 rows in set (0.06 sec)
+
+mysql> select occupation,count(1) from customer group by occupation;
++------------+----------+
+| occupation | count(1) |
++------------+----------+
+| Service    |        6 |
+| Student    |        3 |
+| Housewife  |        1 |
++------------+----------+
+3 rows in set (0.01 sec)
+
+mysql> select occupation,count(1) as cnt from customer group by occupation;
++------------+-----+
+| occupation | cnt |
++------------+-----+
+| Service    |   6 |
+| Student    |   3 |
+| Housewife  |   1 |
++------------+-----+
+3 rows in set (0.00 sec)
+
+mysql> select * from loan;
++---------+--------+-------------+
+| loan_id | custid | loan_amount |
++---------+--------+-------------+
+|       1 | 10     |      100000 |
+|       2 | 11     |      200000 |
+|       3 | 10     |      400000 |
+|       4 | 12     |      500000 |
+|       5 | 13     |      600000 |
+|       6 | 12     |      600000 |
++---------+--------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select occupation,count(1) as cnt from customer group by occupation;
++------------+-----+
+| occupation | cnt |
++------------+-----+
+| Service    |   6 |
+| Student    |   3 |
+| Housewife  |   1 |
++------------+-----+
+3 rows in set (0.00 sec)
+
+mysql> select custid,count(1) from loan group by custid;
++--------+----------+
+| custid | count(1) |
++--------+----------+
+| 10     |        2 |
+| 11     |        1 |
+| 12     |        2 |
+| 13     |        1 |
++--------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select custid,count(*) from loan group by custid;
++--------+----------+
+| custid | count(*) |
++--------+----------+
+| 10     |        2 |
+| 11     |        1 |
+| 12     |        2 |
+| 13     |        1 |
++--------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select custid,sum(loan_amount) from loan group by custid;
++--------+------------------+
+| custid | sum(loan_amount) |
++--------+------------------+
+| 10     |           500000 |
+| 11     |           200000 |
+| 12     |          1100000 |
+| 13     |           600000 |
++--------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> select custid,loan_amount from loan group by custid;
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'myprac.loan.loan_amount' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select custid,avg(loan_amount) from loan group by custid;
++--------+------------------+
+| custid | avg(loan_amount) |
++--------+------------------+
+| 10     |      250000.0000 |
+| 11     |      200000.0000 |
+| 12     |      550000.0000 |
+| 13     |      600000.0000 |
++--------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> select custid,sum(loan_amount) from loan group by custid;
++--------+------------------+
+| custid | sum(loan_amount) |
++--------+------------------+
+| 10     |           500000 |
+| 11     |           200000 |
+| 12     |          1100000 |
+| 13     |           600000 |
++--------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> select custid,min(loan_amount) from loan group by custid;
++--------+------------------+
+| custid | min(loan_amount) |
++--------+------------------+
+| 10     |           100000 |
+| 11     |           200000 |
+| 12     |           500000 |
+| 13     |           600000 |
++--------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> select custid,max(loan_amount) from loan group by custid;
++--------+------------------+
+| custid | max(loan_amount) |
++--------+------------------+
+| 10     |           400000 |
+| 11     |           200000 |
+| 12     |           600000 |
+| 13     |           600000 |
++--------+------------------+
+4 rows in set (0.01 sec)
+
+mysql> select custid,max(loan_amount),min(loan_amount) from loan group by custid;
++--------+------------------+------------------+
+| custid | max(loan_amount) | min(loan_amount) |
++--------+------------------+------------------+
+| 10     |           400000 |           100000 |
+| 11     |           200000 |           200000 |
+| 12     |           600000 |           500000 |
+| 13     |           600000 |           600000 |
++--------+------------------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customer;
++---------+----------+----------+---------+---------+------------+------------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation |
++---------+----------+----------+---------+---------+------------+------------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |
+|      12 | Sagar    | Abhishek | Barwe   | Mumbai  | 7651298321 | Student    |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |
++---------+----------+----------+---------+---------+------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> ALTER TABLE customer ADD salary int(10) DEFAULT 10000;
+Query OK, 0 rows affected, 1 warning (0.38 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> select * from customer;
++---------+----------+----------+---------+---------+------------+------------+--------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation | salary |
++---------+----------+----------+---------+---------+------------+------------+--------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |  10000 |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |  10000 |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |  10000 |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |  10000 |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |  10000 |
+|      12 | Sagar    | Abhishek | Barwe   | Mumbai  | 7651298321 | Student    |  10000 |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |  10000 |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |  10000 |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |  10000 |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |  10000 |
++---------+----------+----------+---------+---------+------------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> update customer set salary = 20000 where cust_id = 8;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set salary = 20000 where cust_id = 15;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set salary = 30000 where cust_id = 16;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set salary = 40000 where cust_id = 9;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set salary = 50000 where cust_id = 13;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from customer;
++---------+----------+----------+---------+---------+------------+------------+--------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation | salary |
++---------+----------+----------+---------+---------+------------+------------+--------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |  10000 |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |  20000 |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |  40000 |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |  10000 |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |  10000 |
+|      12 | Sagar    | Abhishek | Barwe   | Mumbai  | 7651298321 | Student    |  10000 |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |  50000 |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |  10000 |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |  20000 |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |  30000 |
++---------+----------+----------+---------+---------+------------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select occupation,sum(salary) from customer group by occupation;
++------------+-------------+
+| occupation | sum(salary) |
++------------+-------------+
+| Service    |      100000 |
+| Student    |      100000 |
+| Housewife  |       10000 |
++------------+-------------+
+3 rows in set (0.09 sec)
+
+mysql> select city,occupation,sum(salary) from customer group by occupation;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'myprac.customer.city' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select count(city),occupation,sum(salary) from customer group by occupation;
++-------------+------------+-------------+
+| count(city) | occupation | sum(salary) |
++-------------+------------+-------------+
+|           5 | Service    |      100000 |
+|           3 | Student    |      100000 |
+|           1 | Housewife  |       10000 |
++-------------+------------+-------------+
+3 rows in set (0.05 sec)
+
+mysql> select city,occupation,sum(salary) from customer group by occupation;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'myprac.customer.city' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select city,occupation,sum(salary) from customer group by occupation,city;
++---------+------------+-------------+
+| city    | occupation | sum(salary) |
++---------+------------+-------------+
+| Delhi   | Service    |       30000 |
+| Delhi   | Student    |       40000 |
+| Delhi   | Housewife  |       10000 |
+| Mumbai  | Service    |       20000 |
+| Mumbai  | Student    |       60000 |
+| Kolkata | Service    |       20000 |
+| NULL    | Service    |       30000 |
++---------+------------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary) from customer group by occupation,city;
++---------+------------+-------------+-------------+
+| city    | occupation | sum(salary) | avg(salary) |
++---------+------------+-------------+-------------+
+| Delhi   | Service    |       30000 |  15000.0000 |
+| Delhi   | Student    |       40000 |  40000.0000 |
+| Delhi   | Housewife  |       10000 |  10000.0000 |
+| Mumbai  | Service    |       20000 |  10000.0000 |
+| Mumbai  | Student    |       60000 |  30000.0000 |
+| Kolkata | Service    |       20000 |  20000.0000 |
+| NULL    | Service    |       30000 |  30000.0000 |
++---------+------------+-------------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary),min(salary) from customer group by occupation,city;
++---------+------------+-------------+-------------+-------------+
+| city    | occupation | sum(salary) | avg(salary) | min(salary) |
++---------+------------+-------------+-------------+-------------+
+| Delhi   | Service    |       30000 |  15000.0000 |       10000 |
+| Delhi   | Student    |       40000 |  40000.0000 |       40000 |
+| Delhi   | Housewife  |       10000 |  10000.0000 |       10000 |
+| Mumbai  | Service    |       20000 |  10000.0000 |       10000 |
+| Mumbai  | Student    |       60000 |  30000.0000 |       10000 |
+| Kolkata | Service    |       20000 |  20000.0000 |       20000 |
+| NULL    | Service    |       30000 |  30000.0000 |       30000 |
++---------+------------+-------------+-------------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customer order by city,occupation;
++---------+----------+----------+---------+---------+------------+------------+--------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation | salary |
++---------+----------+----------+---------+---------+------------+------------+--------+
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |  30000 |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |  10000 |
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |  10000 |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |  20000 |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |  40000 |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |  20000 |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |  10000 |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |  10000 |
+|      12 | Sagar    | Abhishek | Barwe   | Mumbai  | 7651298321 | Student    |  10000 |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |  50000 |
++---------+----------+----------+---------+---------+------------+------------+--------+
+10 rows in set (0.01 sec)
+
+mysql> select city,occupation,salary from customer order by city,occupation;
++---------+------------+--------+
+| city    | occupation | salary |
++---------+------------+--------+
+| NULL    | Service    |  30000 |
+| Delhi   | Housewife  |  10000 |
+| Delhi   | Service    |  10000 |
+| Delhi   | Service    |  20000 |
+| Delhi   | Student    |  40000 |
+| Kolkata | Service    |  20000 |
+| Mumbai  | Service    |  10000 |
+| Mumbai  | Service    |  10000 |
+| Mumbai  | Student    |  10000 |
+| Mumbai  | Student    |  50000 |
++---------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select * from customer order by city,occupation;
++---------+----------+----------+---------+---------+------------+------------+--------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation | salary |
++---------+----------+----------+---------+---------+------------+------------+--------+
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |  30000 |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |  10000 |
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |  10000 |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |  20000 |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |  40000 |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |  20000 |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |  10000 |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |  10000 |
+|      12 | Sagar    | Abhishek | Barwe   | Mumbai  | 7651298321 | Student    |  10000 |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |  50000 |
++---------+----------+----------+---------+---------+------------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select city,occupation,salary from customer order by city,occupation;
++---------+------------+--------+
+| city    | occupation | salary |
++---------+------------+--------+
+| NULL    | Service    |  30000 |
+| Delhi   | Housewife  |  10000 |
+| Delhi   | Service    |  10000 |
+| Delhi   | Service    |  20000 |
+| Delhi   | Student    |  40000 |
+| Kolkata | Service    |  20000 |
+| Mumbai  | Service    |  10000 |
+| Mumbai  | Service    |  10000 |
+| Mumbai  | Student    |  10000 |
+| Mumbai  | Student    |  50000 |
++---------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary),min(salary) from customer group by occupation,city;
++---------+------------+-------------+-------------+-------------+
+| city    | occupation | sum(salary) | avg(salary) | min(salary) |
++---------+------------+-------------+-------------+-------------+
+| Delhi   | Service    |       30000 |  15000.0000 |       10000 |
+| Delhi   | Student    |       40000 |  40000.0000 |       40000 |
+| Delhi   | Housewife  |       10000 |  10000.0000 |       10000 |
+| Mumbai  | Service    |       20000 |  10000.0000 |       10000 |
+| Mumbai  | Student    |       60000 |  30000.0000 |       10000 |
+| Kolkata | Service    |       20000 |  20000.0000 |       20000 |
+| NULL    | Service    |       30000 |  30000.0000 |       30000 |
++---------+------------+-------------+-------------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary),count(1) from customer group by occupation,city;
++---------+------------+-------------+-------------+-------------+-------------+----------+
+| city    | occupation | sum(salary) | avg(salary) | min(salary) | max(salary) | count(1) |
++---------+------------+-------------+-------------+-------------+-------------+----------+
+| Delhi   | Service    |       30000 |  15000.0000 |       10000 |       20000 |        2 |
+| Delhi   | Student    |       40000 |  40000.0000 |       40000 |       40000 |        1 |
+| Delhi   | Housewife  |       10000 |  10000.0000 |       10000 |       10000 |        1 |
+| Mumbai  | Service    |       20000 |  10000.0000 |       10000 |       10000 |        2 |
+| Mumbai  | Student    |       60000 |  30000.0000 |       10000 |       50000 |        2 |
+| Kolkata | Service    |       20000 |  20000.0000 |       20000 |       20000 |        1 |
+| NULL    | Service    |       30000 |  30000.0000 |       30000 |       30000 |        1 |
++---------+------------+-------------+-------------+-------------+-------------+----------+
+7 rows in set (0.01 sec)
+
+mysql> select city,occupation,salary from customer order by city,occupation;
++---------+------------+--------+
+| city    | occupation | salary |
++---------+------------+--------+
+| NULL    | Service    |  30000 |
+| Delhi   | Housewife  |  10000 |
+| Delhi   | Service    |  10000 |
+| Delhi   | Service    |  20000 |
+| Delhi   | Student    |  40000 |
+| Kolkata | Service    |  20000 |
+| Mumbai  | Service    |  10000 |
+| Mumbai  | Service    |  10000 |
+| Mumbai  | Student    |  10000 |
+| Mumbai  | Student    |  50000 |
++---------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary),count(1) from customer group by occupation,city;
++---------+------------+-------------+-------------+-------------+-------------+----------+
+| city    | occupation | sum(salary) | avg(salary) | min(salary) | max(salary) | count(1) |
++---------+------------+-------------+-------------+-------------+-------------+----------+
+| Delhi   | Service    |       30000 |  15000.0000 |       10000 |       20000 |        2 |
+| Delhi   | Student    |       40000 |  40000.0000 |       40000 |       40000 |        1 |
+| Delhi   | Housewife  |       10000 |  10000.0000 |       10000 |       10000 |        1 |
+| Mumbai  | Service    |       20000 |  10000.0000 |       10000 |       10000 |        2 |
+| Mumbai  | Student    |       60000 |  30000.0000 |       10000 |       50000 |        2 |
+| Kolkata | Service    |       20000 |  20000.0000 |       20000 |       20000 |        1 |
+| NULL    | Service    |       30000 |  30000.0000 |       30000 |       30000 |        1 |
++---------+------------+-------------+-------------+-------------+-------------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary),count(1) from customer group by occupation,city having count(1) > 1;
++--------+------------+-------------+-------------+-------------+-------------+----------+
+| city   | occupation | sum(salary) | avg(salary) | min(salary) | max(salary) | count(1) |
++--------+------------+-------------+-------------+-------------+-------------+----------+
+| Delhi  | Service    |       30000 |  15000.0000 |       10000 |       20000 |        2 |
+| Mumbai | Service    |       20000 |  10000.0000 |       10000 |       10000 |        2 |
+| Mumbai | Student    |       60000 |  30000.0000 |       10000 |       50000 |        2 |
++--------+------------+-------------+-------------+-------------+-------------+----------+
+3 rows in set (0.01 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary),count(1) cnt from customer group by occupation,city havin
+g count(1) > 1;
++--------+------------+-------------+-------------+-------------+-------------+-----+
+| city   | occupation | sum(salary) | avg(salary) | min(salary) | max(salary) | cnt |
++--------+------------+-------------+-------------+-------------+-------------+-----+
+| Delhi  | Service    |       30000 |  15000.0000 |       10000 |       20000 |   2 |
+| Mumbai | Service    |       20000 |  10000.0000 |       10000 |       10000 |   2 |
+| Mumbai | Student    |       60000 |  30000.0000 |       10000 |       50000 |   2 |
++--------+------------+-------------+-------------+-------------+-------------+-----+
+3 rows in set (0.01 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary) min,count(1) cnt from customer group by occupation,city having count(1) > 1;
++--------+------------+-------------+-------------+-------------+-------+-----+
+| city   | occupation | sum(salary) | avg(salary) | min(salary) | min   | cnt |
++--------+------------+-------------+-------------+-------------+-------+-----+
+| Delhi  | Service    |       30000 |  15000.0000 |       10000 | 20000 |   2 |
+| Mumbai | Service    |       20000 |  10000.0000 |       10000 | 10000 |   2 |
+| Mumbai | Student    |       60000 |  30000.0000 |       10000 | 50000 |   2 |
++--------+------------+-------------+-------------+-------------+-------+-----+
+3 rows in set (0.00 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary) min,count(1) cnt from customer group by occupation,city having cnt > 1;
++--------+------------+-------------+-------------+-------------+-------+-----+
+| city   | occupation | sum(salary) | avg(salary) | min(salary) | min   | cnt |
++--------+------------+-------------+-------------+-------------+-------+-----+
+| Delhi  | Service    |       30000 |  15000.0000 |       10000 | 20000 |   2 |
+| Mumbai | Service    |       20000 |  10000.0000 |       10000 | 10000 |   2 |
+| Mumbai | Student    |       60000 |  30000.0000 |       10000 | 50000 |   2 |
++--------+------------+-------------+-------------+-------------+-------+-----+
+3 rows in set (0.00 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary),count(1) from customer group by occupation,city dec;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dec' at line 1
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary),count(1) from customer group by occupation,city desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc' at line 1
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary),count(1) from customer group by occupation asc,city desc;
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asc,city desc' at line 1
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary),count(1) cnt from customer group by occupation,city having count(1) > 1;
+mysql> select city,occupation,salary from customer order by city,occupation;
++---------+------------+--------+
+| city    | occupation | salary |
++---------+------------+--------+
+| NULL    | Service    |  30000 |
+| Delhi   | Housewife  |  10000 |
+| Delhi   | Service    |  10000 |
+| Delhi   | Service    |  20000 |
+| Delhi   | Student    |  40000 |
+| Kolkata | Service    |  20000 |
+| Mumbai  | Service    |  10000 |
+| Mumbai  | Service    |  10000 |
+| Mumbai  | Student    |  10000 |
+| Mumbai  | Student    |  50000 |
++---------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select city,occupation,salary from customer order by city desc,occupation;
++---------+------------+--------+
+| city    | occupation | salary |
++---------+------------+--------+
+| Mumbai  | Service    |  10000 |
+| Mumbai  | Service    |  10000 |
+| Mumbai  | Student    |  10000 |
+| Mumbai  | Student    |  50000 |
+| Kolkata | Service    |  20000 |
+| Delhi   | Housewife  |  10000 |
+| Delhi   | Service    |  10000 |
+| Delhi   | Service    |  20000 |
+| Delhi   | Student    |  40000 |
+| NULL    | Service    |  30000 |
++---------+------------+--------+
+10 rows in set (0.01 sec)
+
+mysql> select city,occupation,salary from customer order by city desc,occupation desc;
++---------+------------+--------+
+| city    | occupation | salary |
++---------+------------+--------+
+| Mumbai  | Student    |  10000 |
+| Mumbai  | Student    |  50000 |
+| Mumbai  | Service    |  10000 |
+| Mumbai  | Service    |  10000 |
+| Kolkata | Service    |  20000 |
+| Delhi   | Student    |  40000 |
+| Delhi   | Service    |  10000 |
+| Delhi   | Service    |  20000 |
+| Delhi   | Housewife  |  10000 |
+| NULL    | Service    |  30000 |
++---------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select * from customer order by city,occupation;
++---------+----------+----------+---------+---------+------------+------------+--------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation | salary |
++---------+----------+----------+---------+---------+------------+------------+--------+
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |  30000 |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |  10000 |
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |  10000 |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |  20000 |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |  40000 |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |  20000 |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |  10000 |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |  10000 |
+|      12 | Sagar    | Abhishek | Barwe   | Mumbai  | 7651298321 | Student    |  10000 |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |  50000 |
++---------+----------+----------+---------+---------+------------+------------+--------+
+10 rows in set (0.01 sec)
+
+mysql> select * from customer order by city,occupation LIMIT 2;
++---------+---------+-------+--------+-------+------------+------------+--------+
+| cust_id | fname   | mname | ltname | city  | mobileno   | occupation | salary |
++---------+---------+-------+--------+-------+------------+------------+--------+
+|      16 | Shankar | NULL  | Nair   | NULL  | 8765489076 | Service    |  30000 |
+|      10 | Parul   | NULL  | Gandhi | Delhi | 9876532109 | Housewife  |  10000 |
++---------+---------+-------+--------+-------+------------+------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customer order by city,occupation LIMIT 1;
++---------+---------+-------+--------+------+------------+------------+--------+
+| cust_id | fname   | mname | ltname | city | mobileno   | occupation | salary |
++---------+---------+-------+--------+------+------------+------------+--------+
+|      16 | Shankar | NULL  | Nair   | NULL | 8765489076 | Service    |  30000 |
++---------+---------+-------+--------+------+------------+------------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer order by city,occupation LIMIT 1;
++---------+---------+-------+--------+------+------------+------------+--------+
+| cust_id | fname   | mname | ltname | city | mobileno   | occupation | salary |
++---------+---------+-------+--------+------+------------+------------+--------+
+|      16 | Shankar | NULL  | Nair   | NULL | 8765489076 | Service    |  30000 |
++---------+---------+-------+--------+------+------------+------------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer order by city,occupation LIMIT 4;
++---------+---------+---------+--------+-------+------------+------------+--------+
+| cust_id | fname   | mname   | ltname | city  | mobileno   | occupation | salary |
++---------+---------+---------+--------+-------+------------+------------+--------+
+|      16 | Shankar | NULL    | Nair   | NULL  | 8765489076 | Service    |  30000 |
+|      10 | Parul   | NULL    | Gandhi | Delhi | 9876532109 | Housewife  |  10000 |
+|       8 | Avinash | Sunder  | Minha  | Delhi | 9876532109 | Service    |  20000 |
+|       1 | Ramesh  | Chandra | Sharma | Delhi | 9543198345 | Service    |  10000 |
++---------+---------+---------+--------+-------+------------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary),count(1) from customer group by occupation asc,city desc; 
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asc,city desc' at line 1
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary),count(1) from customer group by occupation,city;
++---------+------------+-------------+-------------+-------------+-------------+----------+
+| city    | occupation | sum(salary) | avg(salary) | min(salary) | max(salary) | count(1) |
++---------+------------+-------------+-------------+-------------+-------------+----------+
+| Delhi   | Service    |       30000 |  15000.0000 |       10000 |       20000 |        2 |
+| Delhi   | Student    |       40000 |  40000.0000 |       40000 |       40000 |        1 |
+| Delhi   | Housewife  |       10000 |  10000.0000 |       10000 |       10000 |        1 |
+| Mumbai  | Service    |       20000 |  10000.0000 |       10000 |       10000 |        2 |
+| Mumbai  | Student    |       60000 |  30000.0000 |       10000 |       50000 |        2 |
+| Kolkata | Service    |       20000 |  20000.0000 |       20000 |       20000 |        1 |
+| NULL    | Service    |       30000 |  30000.0000 |       30000 |       30000 |        1 |
++---------+------------+-------------+-------------+-------------+-------------+----------+
+7 rows in set (0.01 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary),count(1) from customer group by occupation,city limit 2;
++-------+------------+-------------+-------------+-------------+-------------+----------+
+| city  | occupation | sum(salary) | avg(salary) | min(salary) | max(salary) | count(1) |
++-------+------------+-------------+-------------+-------------+-------------+----------+
+| Delhi | Service    |       30000 |  15000.0000 |       10000 |       20000 |        2 |
+| Delhi | Student    |       40000 |  40000.0000 |       40000 |       40000 |        1 |
++-------+------------+-------------+-------------+-------------+-------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary),count(1) from customer group by occupation,city;
++---------+------------+-------------+-------------+-------------+-------------+----------+
+| city    | occupation | sum(salary) | avg(salary) | min(salary) | max(salary) | count(1) |
++---------+------------+-------------+-------------+-------------+-------------+----------+
+| Delhi   | Service    |       30000 |  15000.0000 |       10000 |       20000 |        2 |
+| Delhi   | Student    |       40000 |  40000.0000 |       40000 |       40000 |        1 |
+| Delhi   | Housewife  |       10000 |  10000.0000 |       10000 |       10000 |        1 |
+| Mumbai  | Service    |       20000 |  10000.0000 |       10000 |       10000 |        2 |
+| Mumbai  | Student    |       60000 |  30000.0000 |       10000 |       50000 |        2 |
+| Kolkata | Service    |       20000 |  20000.0000 |       20000 |       20000 |        1 |
+| NULL    | Service    |       30000 |  30000.0000 |       30000 |       30000 |        1 |
++---------+------------+-------------+-------------+-------------+-------------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select city,occupation,sum(salary),avg(salary),min(salary),max(salary),count(1) from customer group by occupation,city limit 4;
++--------+------------+-------------+-------------+-------------+-------------+----------+
+| city   | occupation | sum(salary) | avg(salary) | min(salary) | max(salary) | count(1) |
++--------+------------+-------------+-------------+-------------+-------------+----------+
+| Delhi  | Service    |       30000 |  15000.0000 |       10000 |       20000 |        2 |
+| Delhi  | Student    |       40000 |  40000.0000 |       40000 |       40000 |        1 |
+| Delhi  | Housewife  |       10000 |  10000.0000 |       10000 |       10000 |        1 |
+| Mumbai | Service    |       20000 |  10000.0000 |       10000 |       10000 |        2 |
++--------+------------+-------------+-------------+-------------+-------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customer order by city,occupation LIMIT 4;
++---------+---------+---------+--------+-------+------------+------------+--------+
+| cust_id | fname   | mname   | ltname | city  | mobileno   | occupation | salary |
++---------+---------+---------+--------+-------+------------+------------+--------+
+|      16 | Shankar | NULL    | Nair   | NULL  | 8765489076 | Service    |  30000 |
+|      10 | Parul   | NULL    | Gandhi | Delhi | 9876532109 | Housewife  |  10000 |
+|       8 | Avinash | Sunder  | Minha  | Delhi | 9876532109 | Service    |  20000 |
+|       1 | Ramesh  | Chandra | Sharma | Delhi | 9543198345 | Service    |  10000 |
++---------+---------+---------+--------+-------+------------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customer LIMIT 4;
++---------+---------+---------+---------+-------+------------+------------+--------+
+| cust_id | fname   | mname   | ltname  | city  | mobileno   | occupation | salary |
++---------+---------+---------+---------+-------+------------+------------+--------+
+|       1 | Ramesh  | Chandra | Sharma  | Delhi | 9543198345 | Service    |  10000 |
+|       8 | Avinash | Sunder  | Minha   | Delhi | 9876532109 | Service    |  20000 |
+|       9 | Rahul   | NULL    | Rastogi | Delhi | 9765178901 | Student    |  40000 |
+|      10 | Parul   | NULL    | Gandhi  | Delhi | 9876532109 | Housewife  |  10000 |
++---------+---------+---------+---------+-------+------------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customer;
++---------+----------+----------+---------+---------+------------+------------+--------+
+| cust_id | fname    | mname    | ltname  | city    | mobileno   | occupation | salary |
++---------+----------+----------+---------+---------+------------+------------+--------+
+|       1 | Ramesh   | Chandra  | Sharma  | Delhi   | 9543198345 | Service    |  10000 |
+|       8 | Avinash  | Sunder   | Minha   | Delhi   | 9876532109 | Service    |  20000 |
+|       9 | Rahul    | NULL     | Rastogi | Delhi   | 9765178901 | Student    |  40000 |
+|      10 | Parul    | NULL     | Gandhi  | Delhi   | 9876532109 | Housewife  |  10000 |
+|      11 | Naveen   | NULL     | Aedekar | Mumbai  | 8976523190 | Service    |  10000 |
+|      12 | Sagar    | Abhishek | Barwe   | Mumbai  | 7651298321 | Student    |  10000 |
+|      13 | Amit     | Kumar    | Borkar  | Mumbai  | 9875189761 | Student    |  50000 |
+|      14 | Nisha    | NULL     | Damle   | Mumbai  | 7954198761 | Service    |  10000 |
+|      15 | Abhishek | NULL     | Dutta   | Kolkata | 9856198761 | Service    |  20000 |
+|      16 | Shankar  | NULL     | Nair    | NULL    | 8765489076 | Service    |  30000 |
++---------+----------+----------+---------+---------+------------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select * from customer limit 2;
++---------+---------+---------+--------+-------+------------+------------+--------+
+| cust_id | fname   | mname   | ltname | city  | mobileno   | occupation | salary |
++---------+---------+---------+--------+-------+------------+------------+--------+
+|       1 | Ramesh  | Chandra | Sharma | Delhi | 9543198345 | Service    |  10000 |
+|       8 | Avinash | Sunder  | Minha  | Delhi | 9876532109 | Service    |  20000 |
++---------+---------+---------+--------+-------+------------+------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customer limit 0,4;
++---------+---------+---------+---------+-------+------------+------------+--------+
+| cust_id | fname   | mname   | ltname  | city  | mobileno   | occupation | salary |
++---------+---------+---------+---------+-------+------------+------------+--------+
+|       1 | Ramesh  | Chandra | Sharma  | Delhi | 9543198345 | Service    |  10000 |
+|       8 | Avinash | Sunder  | Minha   | Delhi | 9876532109 | Service    |  20000 |
+|       9 | Rahul   | NULL    | Rastogi | Delhi | 9765178901 | Student    |  40000 |
+|      10 | Parul   | NULL    | Gandhi  | Delhi | 9876532109 | Housewife  |  10000 |
++---------+---------+---------+---------+-------+------------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customer limit 4,4;
++---------+--------+----------+---------+--------+------------+------------+--------+
+| cust_id | fname  | mname    | ltname  | city   | mobileno   | occupation | salary |
++---------+--------+----------+---------+--------+------------+------------+--------+
+|      11 | Naveen | NULL     | Aedekar | Mumbai | 8976523190 | Service    |  10000 |
+|      12 | Sagar  | Abhishek | Barwe   | Mumbai | 7651298321 | Student    |  10000 |
+|      13 | Amit   | Kumar    | Borkar  | Mumbai | 9875189761 | Student    |  50000 |
+|      14 | Nisha  | NULL     | Damle   | Mumbai | 7954198761 | Service    |  10000 |
++---------+--------+----------+---------+--------+------------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customer limit 8,4;
++---------+----------+-------+--------+---------+------------+------------+--------+
+| cust_id | fname    | mname | ltname | city    | mobileno   | occupation | salary |
++---------+----------+-------+--------+---------+------------+------------+--------+
+|      15 | Abhishek | NULL  | Dutta  | Kolkata | 9856198761 | Service    |  20000 |
+|      16 | Shankar  | NULL  | Nair   | NULL    | 8765489076 | Service    |  30000 |
++---------+----------+-------+--------+---------+------------+------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> 

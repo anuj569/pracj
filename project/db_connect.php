@@ -65,27 +65,5 @@ class database_conn {
       }
       */
 }
-$connection = new database_conn("localhost","root","Admin@123","practice");
-/*
-$connection = new database_conn("localhost","root","Admin@123","practice");
-//$connection->db_connect("localhost","root","Admin@123","practice");
-
-$connection->server_name = "Mysql_test";
-print_r($connection);
-exit;
-$arr = $connection->fetch_data_count("select * from customer_new");
-print_r($arr);
-
-
-$arr = $connection->fetch_data("select * from customer_new");
-print_r($arr);
-
-/*if($connection->fetch_data("INSERT QUERY")){
-
-}
-else{
-
-}
-*/
-
+//$connection = new database_conn("localhost","root","Admin@123","practice");
 ?>

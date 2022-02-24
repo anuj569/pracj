@@ -14,7 +14,7 @@
 </head>
 <?php 
   session_start(); 
-  $conn = mysqli_connect("localhost","root","Admin@123","practice");
+  $conn = mysqli_connect("localhost","root","Admin@123","myprac");
 ?>
 
 <?php require_once("constants.php"); ?>

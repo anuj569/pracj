@@ -1,0 +1,4 @@
+RewriteEngine On
+
+RewriteCond %{HTTP_HOST} ^http://localhost/$ [NC]
+RewriteRule ^ http://newdomain.com%{REQUEST_URI} [L,R=301]

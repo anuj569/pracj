@@ -1,72 +1,30 @@
 <?php require_once("header.php");?>
 <body>
 <?php
-//print "<PRE>";
-//print_r($_SERVER);
 if(!empty($_REQUEST)){
-     //print "<PRE>";
-    //print_r($_REQUEST);
-    //exit;
     $error = array();
-    if(!empty($_REQUEST['username'])){
-        if(strlen($_REQUEST['username']) <=4){
-            $error['username'] = "Username can not be less than 4";               
-        }
-    }
-    else{
-        $error['username'] = "Username can not be blank";               
-    }
 
-    if(!empty($_REQUEST['password'])){
-        if(strlen($_REQUEST['password']) <=5){
-            $error['password'] = "Password can not be less than 5";               
-        }
-    }
-    else{
-        $error['password'] = "Password can not be blank";               
-    }
-    print_r($error);
+    $error = basic_validation_user_password();
+
     if(empty($error)){
-        $encoded_pwd = md5($_REQUEST['password']);
-        //$login = validate_login($_REQUEST['username'],$_REQUEST['password']);
-        $query = "select * from customer WHERE fname='{$_REQUEST['username']}' AND password = '$encoded_pwd'";
-        //echo $query;exit;
-        
-        $result = mysqli_query($conn, $query);
-        if($result){
-            //echo "here1";
-            if(mysqli_num_rows($result) == 1){
-                //echo "here2";
-                $user_data = mysqli_fetch_assoc($result);
-                //print_r($user_data);exit;
-                $login = true;
-            }
-            else{
-                //echo "here3";
-                $login = false;    
-            }
-        }
-        else{
-            //echo "here4";
-            $login = false;    
-        }
-
-        //$login = true;
-        if($login){
-            //set the session
-            $_SESSION['name'] = $user_data['fname'];
-            $_SESSION['id'] = $user_data['cust_id'];
-            $_SESSION['city'] = $user_data['city'];
-            $_SESSION['ltname'] = $user_data['ltname'];
+        $login_status = db_validation_user_password($conn);
+        if($login_status['status']){
+            $_SESSION['name'] = $login_status['user_data']['fname'];
+            $_SESSION['id'] = $login_status['user_data']['cust_id'];
+            $_SESSION['city'] = $login_status['user_data']['city'];
+            $_SESSION['ltname'] = $login_status['user_data']['ltname'];
             header("location: home.php");
             exit;
         }
         else{
+            write_error_log("db_validation_user_password failed::{$_REQUEST['username']} :: {$_REQUEST['password']}");    
             $error['username'] = "Username is wrong";                
             $error['password'] = "Password is wrong";
         }
     }
-
+    else{
+        write_error_log("basic_validation_user_password failed::{$_REQUEST['username']} :: {$_REQUEST['password']}");
+    }
 }
 ?>    
     <div class="container">
@@ -87,7 +45,7 @@ if(!empty($_REQUEST)){
                         </div>
                         <div class="col-12">
                             <label>Password*</label>
-                            <input type="password" name="password" class="form-control" placeholder="Password">
+                            <input type="password" name="password" class="form-control" placeholder="Password" >
         			<small id="passwordHelp" class="text-danger">
                         <?php if(!empty($error['password'])) echo $error['password'];?>   
         			</small>      

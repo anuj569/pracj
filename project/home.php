@@ -47,11 +47,11 @@ if(empty($_SESSION)){
           </tbody>
         </table>
         </div>
-<!-- 
+
 <a href="home_new.php">Add 1 more product</a>
 <br/>
 <a href="logout.php">Logout</a>
--->
+
 </div>
 </body>
 </html>

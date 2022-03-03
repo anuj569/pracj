@@ -1,13 +1,13 @@
 <?php
 //step 1: 
 require_once("db_connect.php");
-$emp_data = "SELECT * FROM employee_new";
+$emp_data = "SELECT * FROM customer";
 $arr = $connection->fetch_data($emp_data);
 //print_r($arr);exit;
 $temp_filename = "uploads/report" . date('YmdHis') . ".csv";
 $str = "Id,Name,Department,City\n";
 foreach ($arr as $key => $value) {
-  $str .= $value['id'] . "," . $value['name'] . "," . $value['dept'] . "," . $value['city'] . "\n";
+  $str .= $value['id'] . "," . $value['name'] . "," . $value['occupation'] . "," . $value['city'] . "\n";
 }
 //echo $str;exit;
 

@@ -15,17 +15,13 @@ if(empty($_SESSION)){
   </h3>
   <BR/>  
     <?php 
-      $emp_data = "SELECT * FROM customer";
-      $arr = array();
-      $result = mysqli_query($conn, $emp_data);
-      while($data = mysqli_fetch_assoc($result)){
-        $arr[] = $data;
-    }
+      $arr = get_all_customers($conn);
      // print_r($arr);exit;
     ?>
+   <h6 align="left">Search Here: <input type="text" id="search_user"/></h6> 
    <h6 align="right"><a href='download_report.php'>Download Here</a></h6> 
    <div class="bd-example">
-        <table class="table table-sm table-bordered">
+        <table class="table table-sm table-bordered" id="cust_table">
           <thead>
           <tr>
             <th scope="col">ID</th>
@@ -48,7 +44,9 @@ if(empty($_SESSION)){
         </table>
         </div>
 
-<a href="home_new.php">Add 1 more product</a>
+<a href="home.php">Add 1 more product</a>
+<br/>
+<a href="check_user.php">check available users</a>
 <br/>
 <a href="logout.php">Logout</a>
 

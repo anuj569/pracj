@@ -10,13 +10,24 @@
    <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
   <script>
+$(document).ready(function(){
+  $("#search_user").keyup(function(){
+   var username = $(this).val().trim();
+   if(true){
+    $.ajax({
+         url: 'check_user_availability.php?user=' + username,
+         type: 'get',
+         success: function(response){
+            //alert(response);
+             $('#cust_table').html(response);
+          }
+      });
+   }
+  });
+});
+
+
   </script>  
 </head>
-<?php 
-  session_start(); 
-  $conn = mysqli_connect("localhost","root","Admin@123","myprac");
-?>
-
 <?php require_once("constants.php"); ?>
 <?php require_once("common_functions.php"); ?>
-<?php require_once("db_connect.php"); ?>
